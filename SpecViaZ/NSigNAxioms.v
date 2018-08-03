@@ -22,7 +22,7 @@ Hint Rewrite
 Ltac nsimpl := autorewrite with nsimpl.
 Ltac ncongruence := unfold eq, to_N; repeat red; intros; nsimpl; congruence.
 Ltac zify := unfold eq, lt, le, to_N in *; nsimpl.
-Ltac omega_pos n := generalize (spec_pos n); omega with *.
+Ltac lia_pos n := generalize (spec_pos n); lia.
 
 Local Obligation Tactic := ncongruence.
 
@@ -37,7 +37,7 @@ Program Instance mul_wd : Proper (eq==>eq==>eq) mul.
 
 Theorem pred_succ : forall n, pred (succ n) == n.
 Proof.
-intros. zify. omega_pos n.
+intros. zify. lia_pos n.
 Qed.
 
 Theorem one_succ : 1 == succ 0.
@@ -107,12 +107,12 @@ Qed.
 
 Theorem sub_0_r : forall n, n - 0 == n.
 Proof.
-intros. zify. omega_pos n.
+intros. zify. lia_pos n.
 Qed.
 
 Theorem sub_succ_r : forall n m, n - (succ m) == pred (n - m).
 Proof.
-intros. zify. omega with *.
+intros. zify. lia.
 Qed.
 
 Theorem mul_0_l : forall n, 0 * n == 0.
@@ -191,27 +191,27 @@ Qed.
 
 Theorem lt_succ_r : forall n m, n < succ m <-> n <= m.
 Proof.
-intros. zify. omega.
+intros. zify. lia.
 Qed.
 
 Theorem min_l : forall n m, n <= m -> min n m == n.
 Proof.
-intros n m. zify. omega with *.
+intros n m. zify. lia.
 Qed.
 
 Theorem min_r : forall n m, m <= n -> min n m == m.
 Proof.
-intros n m. zify. omega with *.
+intros n m. zify. lia.
 Qed.
 
 Theorem max_l : forall n m, m <= n -> max n m == n.
 Proof.
-intros n m. zify. omega with *.
+intros n m. zify. lia.
 Qed.
 
 Theorem max_r : forall n m, n <= m -> max n m == m.
 Proof.
-intros n m. zify. omega with *.
+intros n m. zify. lia.
 Qed.
 
 (** Properties specific to natural numbers, not integers. *)
@@ -237,7 +237,7 @@ Qed.
 
 Lemma pow_neg_r : forall a b, b<0 -> a^b == 0.
 Proof.
- intros a b. zify. intro Hb. exfalso. omega_pos b.
+ intros a b. zify. intro Hb. exfalso. lia_pos b.
 Qed.
 
 Lemma pow_pow_N : forall a b, a^b == pow_N a (to_N b).
@@ -273,7 +273,7 @@ Qed.
 
 Lemma sqrt_neg : forall n, n<0 -> sqrt n == 0.
 Proof.
- intros n. zify. intro H. exfalso. omega_pos n.
+ intros n. zify. intro H. exfalso. lia_pos n.
 Qed.
 
 (** Log2 *)
@@ -299,7 +299,7 @@ Lemma even_spec n : even n = true <-> Even n.
 Proof.
  unfold Even. zify. rewrite Z.even_spec.
  split; intros (m,Hm).
- - exists (N_of_Z m). zify. rewrite spec_N_of_Z; trivial. omega_pos n.
+ - exists (N_of_Z m). zify. rewrite spec_N_of_Z; trivial. lia_pos n.
  - exists [m]. revert Hm; now zify.
 Qed.
 
@@ -307,7 +307,7 @@ Lemma odd_spec n : odd n = true <-> Odd n.
 Proof.
  unfold Odd. zify. rewrite Z.odd_spec.
  split; intros (m,Hm).
- - exists (N_of_Z m). zify. rewrite spec_N_of_Z; trivial. omega_pos n.
+ - exists (N_of_Z m). zify. rewrite spec_N_of_Z; trivial. lia_pos n.
  - exists [m]. revert Hm; now zify.
 Qed.
 

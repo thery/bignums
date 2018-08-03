@@ -211,7 +211,6 @@ Section DoubleBase.
    pattern 2 at 2; rewrite <- Z.pow_1_r.
    rewrite <- Zpower_exp; auto with zarith.
    f_equal; auto with zarith.
-   case w_digits; compute; intros; discriminate.
    rewrite H; f_equal; auto with zarith.
    rewrite Z.mul_comm; apply Z_div_mult; auto with zarith.
   Qed.

@@ -198,11 +198,11 @@ Let test : forall x y : bigZ, x<=y -> y<=x -> x==y.
 Proof. bigZ_order. Qed.
 End TestOrder.
 
-(** We can use at least a bit of (r)omega by translating to [Z]. *)
+(** We can use at least a bit of (r)lia by translating to [Z]. *)
 
-Section TestOmega.
+Section Testlia.
 Let test : forall x y : bigZ, x<=y -> y<=x -> x==y.
-Proof. intros x y. BigZ.zify. omega. Qed.
-End TestOmega.
+Proof. intros x y. BigZ.zify. lia. Qed.
+End Testlia.
 
-(** Todo: micromega *)
+(** Todo: micrlia *)

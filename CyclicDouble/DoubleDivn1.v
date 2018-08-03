@@ -102,7 +102,7 @@ Section GENDIVN1.
    rewrite H1.
    assert (H2 := IHn r hh H);destruct (double_divn1_0 n r hh) as (qh,rh).
    destruct H2.
-   assert ([|rh|] < [|b2p|]). omega.
+   assert ([|rh|] < [|b2p|]). lia.
    assert (H4 := IHn rh hl H3);destruct (double_divn1_0 n rh hl) as (ql,rl).
    destruct H4;split;trivial.
    rewrite spec_double_WW;trivial.
@@ -197,7 +197,7 @@ Section GENDIVN1.
               double_wB w_digits n).
    generalize (IHn r hh hl H);destruct (double_divn1_p n r hh hl) as (qh,rh);
    intros (H3,H4);rewrite H3.
-   assert ([|rh|] < [|b2p|]). omega.
+   assert ([|rh|] < [|b2p|]). lia.
    replace (([!n|qh!] * [|b2p|] + [|rh|]) * double_wB w_digits n +
      ([!n|hl!] * 2 ^ [|p|] +
       [!n|lh!] / 2 ^ (Zpos (w_digits << n) - [|p|])) mod
@@ -249,7 +249,6 @@ Section GENDIVN1.
    rewrite (Z.mul_comm (([!n|hh!] * 2 ^ [|p|] +
       [!n|hl!] / 2 ^ (Zpos (w_digits << n) - [|p|])))).
    rewrite  Zmult_mod_distr_l;auto with zarith.
-   ring.
    rewrite Zpower_exp;auto with zarith.
    assert (0 < Zpos (w_digits << n)). unfold Z.lt;reflexivity.
    auto with zarith.
@@ -305,10 +304,6 @@ Section GENDIVN1.
  Lemma spec_double_digits:forall n, Zpos w_digits <= Zpos (w_digits << n).
  Proof.
   induction n;simpl;auto with zarith.
-  change (Zpos (xO (w_digits << n))) with
-    (2*Zpos (w_digits << n)).
-  assert (0 < Zpos w_digits) by reflexivity.
-  auto with zarith.
  Qed.
 
  Lemma spec_high : forall n (x:word w n),
@@ -382,11 +377,11 @@ Section GENDIVN1.
      replace (2 ^ [|w_head0 b|]) with (2^[|w_head0 b|] * 1);try (ring;fail).
      apply Z.mul_le_mono_nonneg;auto with zarith.
      assert (wB <= 2^[|w_head0 b|]).
-     unfold base;apply Zpower_le_monotone;auto with zarith. omega.
+     unfold base;apply Zpower_le_monotone;auto with zarith. lia.
    assert ([|w_add_mul_div (w_head0 b) b w_0|] =
                2 ^ [|w_head0 b|] * [|b|]).
     rewrite (spec_add_mul_div b w_0); auto with zarith.
-    rewrite spec_0;rewrite Zdiv_0_l; try omega.
+    rewrite spec_0;rewrite Zdiv_0_l; try lia.
     rewrite Z.add_0_r; rewrite Z.mul_comm.
     rewrite Zmod_small; auto with zarith.
    assert (H5 := spec_to_Z (high n a)).
@@ -407,7 +402,7 @@ Section GENDIVN1.
     apply Zdiv_lt_upper_bound;auto with zarith.
     apply Z.lt_le_trans with wB;auto with zarith.
     apply Z.le_trans with (2 ^ [|w_head0 b|] * [|b|] * 2).
-    rewrite <- wB_div_2; try omega.
+    rewrite <- wB_div_2; try lia.
     apply Z.mul_le_mono_nonneg;auto with zarith.
     pattern 2 at 1;rewrite <- Z.pow_1_r.
     apply Zpower_le_monotone;split;auto with zarith.
@@ -474,7 +469,6 @@ Section GENDIVN1.
     auto with zarith.
    rewrite H9.
    apply Zdiv_lt_upper_bound;auto with zarith.
-   rewrite Z.mul_comm;auto with zarith.
    exact (spec_double_to_Z w_digits w_to_Z spec_to_Z n a).
  Qed.
 
@@ -513,7 +507,6 @@ Section GENDIVN1.
   assert (H2 := spec_double_modn1_aux n a b).
   rewrite H2;destruct (double_divn1 n a b) as (q,r).
   simpl;apply Zmod_unique with (double_to_Z w_digits w_to_Z n q);auto with zarith.
-  destruct H1 as (h1,h2);rewrite h1;ring.
  Qed.
 
 End GENDIVN1.

@@ -200,11 +200,11 @@ Section DoubleSub.
    as [l|l];intros H;unfold interp_carry in H;rewrite <- H;
    rewrite <- Z.mul_opp_l.
    assert ([|l|] = 0).
-    assert (H1:= spec_to_Z l);assert (H2 := spec_to_Z xl);omega.
+    assert (H1:= spec_to_Z l);assert (H2 := spec_to_Z xl);lia.
    rewrite H0;generalize (spec_opp_c xh);destruct (w_opp_c xh)
    as [h|h];intros H1;unfold interp_carry in *;rewrite <- H1.
    assert ([|h|] = 0).
-    assert (H3:= spec_to_Z h);assert (H2 := spec_to_Z xh);omega.
+    assert (H3:= spec_to_Z h);assert (H2 := spec_to_Z xh);lia.
    rewrite H2;reflexivity.
    simpl ww_to_Z;rewrite wwB_wBwB;rewrite spec_w_0;ring.
    unfold interp_carry;simpl ww_to_Z;rewrite wwB_wBwB;rewrite spec_opp_carry;
@@ -219,7 +219,7 @@ Section DoubleSub.
    as [l|l];intros H;unfold interp_carry in H;rewrite <- H;simpl ww_to_Z.
    rewrite spec_w_0;rewrite Z.add_0_r;rewrite wwB_wBwB.
    assert ([|l|] = 0).
-    assert (H1:= spec_to_Z l);assert (H2 := spec_to_Z xl);omega.
+    assert (H1:= spec_to_Z l);assert (H2 := spec_to_Z xl);lia.
    rewrite H0;rewrite Z.add_0_r; rewrite Z.pow_2_r;
     rewrite Zmult_mod_distr_r;try apply lt_0_wB.
    rewrite spec_opp;trivial.
@@ -243,13 +243,13 @@ Section DoubleSub.
    intros H;unfold interp_carry in H;rewrite <- H. simpl;apply spec_w_WW.
    rewrite Z.add_assoc;rewrite <- Z.mul_add_distr_r.
    assert ([|l|] = wB - 1).
-     assert (H1:= spec_to_Z l);assert (H2 := spec_to_Z xl);omega.
+     assert (H1:= spec_to_Z l);assert (H2 := spec_to_Z xl);lia.
    rewrite H0;change ([|xh|] + -1) with ([|xh|] - 1).
    generalize (spec_pred_c xh);destruct (w_pred_c xh) as [h|h];
    intros H1;unfold interp_carry in H1;rewrite <- H1.
    simpl;rewrite spec_w_Bm1;ring.
    assert ([|h|] = wB - 1).
-     assert (H3:= spec_to_Z h);assert (H2 := spec_to_Z xh);omega.
+     assert (H3:= spec_to_Z h);assert (H2 := spec_to_Z xh);lia.
    rewrite H2;unfold interp_carry;rewrite spec_ww_Bm1;rewrite wwB_wBwB;ring.
   Qed.
 
@@ -307,7 +307,7 @@ Section DoubleSub.
    rewrite Z.add_assoc;rewrite <- Z.mul_add_distr_r.
    change ([|xh|] + -1) with ([|xh|] - 1).
    assert ([|l|] = wB - 1).
-    assert (H1:= spec_to_Z l);assert (H2:= spec_to_Z xl);omega.
+    assert (H1:= spec_to_Z l);assert (H2:= spec_to_Z xl);lia.
    rewrite (mod_wwB w_digits w_to_Z);trivial.
    rewrite spec_pred;rewrite spec_w_Bm1;rewrite <- H0;trivial.
   Qed.
